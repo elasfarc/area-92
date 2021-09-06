@@ -7,7 +7,15 @@ const api =
     if (type !== apiActions.API_CALL_REQUEST) return next(action);
 
     next(action);
-    const { method = "GET", url, body, onStart, onSuccess, onError } = payload;
+    const {
+      method = "GET",
+      url,
+      body,
+      onStart,
+      onSuccess,
+      onError,
+      info,
+    } = payload;
     if (onStart) dispatch({ type: onStart });
 
     try {
@@ -20,7 +28,7 @@ const api =
       });
       const data = await response.json(response);
       dispatch(apiActions.onApiSuccess);
-      if (onSuccess) dispatch({ type: onSuccess, payload: data });
+      if (onSuccess) dispatch({ type: onSuccess, payload: { data, info } });
     } catch (error) {
       dispatch(apiActions.onApiFail);
       if (onError) dispatch({ type: onError, payload: error });
