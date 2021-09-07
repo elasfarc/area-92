@@ -1,4 +1,5 @@
 import * as apiActions from "../api";
+
 const api =
   ({ dispatch }) =>
   (next) =>
@@ -17,7 +18,6 @@ const api =
       info,
     } = payload;
     if (onStart) dispatch({ type: onStart });
-
     try {
       const response = await fetch(url, {
         method,

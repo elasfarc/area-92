@@ -23,11 +23,11 @@ export const getGeoWeather = () => ({});
 // REDUCER
 const initialState = {
   continents: {
-    africa: {},
-    asia: {},
-    europe: {},
-    americas: {},
-    oceanioa: {},
+    africa: [],
+    asia: [],
+    europe: [],
+    americas: [],
+    oceania: [],
   },
   isLoading: false,
 };
@@ -40,7 +40,7 @@ const reducer = (state = initialState, { type, payload }) => {
       isLoading: false,
       continents: {
         ...state.continents,
-        [payload.info]: payload.data.map((country) => ({ [country.name]: {} })),
+        [payload.info]: payload.data,
       },
     };
   if (type === CITIES_LOADED) return state;

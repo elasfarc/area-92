@@ -47,6 +47,11 @@ img {
   max-width: 100%;
   object-fit: cover;
 }
+a:link,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
 
 .flex {
   display: flex;
