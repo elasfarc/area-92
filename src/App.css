@@ -94,7 +94,7 @@ a:visited {
 }
 .box {
   padding: 3em 0;
-  cursor: pointer;
+  _cursor: pointer;
   color: white;
   background-color: #ff4f92;
   background-color: rgb(113, 66, 157);

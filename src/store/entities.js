@@ -26,18 +26,20 @@ export const loadCitiesPerCountry = (country, continent) =>
 
     info: { country, continent },
   });
+
+export const loadCountriesData = () =>
+  apiActions.requestApiCall({
+    url: `https://countriesnow.space/api/v0.1/countries/info?returns=flag,currency,capital,cities,population`,
+    onStart: COUNTRIES_REQUESTED,
+    onSuccess: COUNTRIES_LOADED,
+  });
+
 export const transformCityToGeo = () => ({});
 export const getGeoWeather = () => ({});
 
 // REDUCER
 const initialState = {
-  continents: {
-    africa: [],
-    asia: [],
-    europe: [],
-    americas: [],
-    oceania: [],
-  },
+  countries: [],
   isLoading: false,
 };
 
@@ -47,10 +49,7 @@ const reducer = (state = initialState, { type, payload }) => {
     return {
       ...state,
       isLoading: false,
-      continents: {
-        ...state.continents,
-        [payload.info]: payload.data,
-      },
+      countries: payload.data,
     };
   if (type === CITIES_LOADED)
     return {

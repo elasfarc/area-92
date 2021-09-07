@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import * as entitiesActions from "./store/entities";
 import Home from "./components/Home";
-import Continent from "./components/Continent";
 import Country from "./components/Country";
 
 function App() {
@@ -18,10 +17,7 @@ function App() {
       <Route path="/" exact>
         <Home />
       </Route>
-      <Route path="/:continent" exact>
-        <Continent />
-      </Route>
-      <Route path="/:continent/:country">
+      <Route path="/:country" exact>
         <Country />
       </Route>
     </Router>

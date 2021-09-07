@@ -1,43 +1,39 @@
 import React from "react";
-import { Link, useParams, useRouteMatch } from "react-router-dom";
+import { Link, useParams, useRouteMatch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
+import City from "./City";
 
 const Country = () => {
-  const { continent, country: countryName } = useParams();
+  const { country: countryName } = useParams();
   const { url, path } = useRouteMatch();
-  const { cities, flag } = useSelector((state) =>
-    state.entities.continents[continent].find(
-      (countryEle) => countryEle.name === countryName
-    )
-  );
-  const dispatch = useDispatch();
-  console.log("+++++++++");
-  console.log("+++cocococo++++", cities);
-  console.log("country", countryName, "continent", continent);
-  console.log("url", url);
-  console.log("path", path);
-  React.useEffect(() => {
-    dispatch(entitiesActions.loadCitiesPerCountry(countryName, continent));
-  }, []);
-  return cities ? (
+  const { name, flag, currency, cities } = useSelector(
+    (state) => state.entities.countries
+  ).find((country) => country.name === countryName);
+
+  React.useEffect(() => {}, []);
+  return (
     <div className="home">
-      <div className="text-center">{countryName}</div>
-      {cities.map((city) => (
-        <div key={city} className="box mb-1">
-          <Link to={`${url}/${city}`}>
-            <div className="container flex gap-2 cross-center">
-              <img src={flag} alt="" className="box__img" />
-              <div className="text-center">
-                <h4 className="box__heading">{city}</h4>
-                <p className="box__text">blah blah blah</p>
-              </div>
-            </div>
-          </Link>
+      <div className="box mb-1">
+        <div className="container flex gap-2 cross-center">
+          <img src={flag} alt="" className="box__img" />
+          <div className="text-center">
+            <h4 className="box__heading">{name}</h4>
+            <p className="box__text">Currency: {currency}</p>
+          </div>
         </div>
-      ))}
+      </div>
+      <div className="cities">
+        {cities.map((city) => (
+          <>
+            <Link key={city} to={`${url}/${city}`}>
+              <div className="box mb-1">{city}</div>
+            </Link>
+          </>
+        ))}
+      </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Country;
