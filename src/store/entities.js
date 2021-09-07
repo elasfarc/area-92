@@ -25,7 +25,7 @@ export const transformCitiesToGeo = ({ country, cities }) =>
   apiActions.requestApiCall({
     url: `http://open.mapquestapi.com/geocoding/v1/batch?key=4qiFlGPdSaIgG97k8C3AyJRKLBpq1jtJ`,
     method: "POST",
-    body: { locations: cities.map((city) => ({ city })) },
+    body: { locations: cities.map((city) => ({ city, country })) },
     onStart: COUNTRIES_REQUESTED,
     onSuccess: CITIES_TRANSFORM_TO_GEO,
     info: country,

@@ -19,8 +19,12 @@ const Country = () => {
   // ).find((country) => country.name === countryName);
 
   const {
-    state: { name, flag, currency, capital, cities },
+    state: { name, flag, currency, capital },
   } = useLocation();
+
+  const { cities } = useSelector((state) =>
+    state.entities.countries.find((country) => country.name === name)
+  );
 
   React.useEffect(() => {
     dispatch(
@@ -30,6 +34,7 @@ const Country = () => {
       })
     );
   }, []);
+  console.log("++++++");
   return (
     <div className="home">
       <div className="box mb-1">
@@ -43,9 +48,14 @@ const Country = () => {
         </div>
       </div>
       <div className="cities">
-        {cities.map(({ name: cityName }) => (
+        {cities.map(({ name: cityName, mapUrl }) => (
           <Link key={cityName} to={`${url}/${cityName}`}>
-            <div className="box mb-1">{cityName}</div>
+            <div className="box mb-1">
+              <div className="container flex gap-3 cross-center">
+                <img src={mapUrl} alt={`map of ${cityName} `} width="150" />
+                <div>{cityName}</div>
+              </div>
+            </div>
           </Link>
         ))}
       </div>
