@@ -10,7 +10,7 @@ const CITY_WEATHER_LOADED = "/weather/city";
 // ACTION CREATOR
 export const loadCountriesPerContinent = (continent) =>
   apiActions.requestApiCall({
-    url: `https://restcountries.eu/rest/v2/region/${continent}?fields=name`,
+    url: `https://restcountries.eu/rest/v2/region/${continent}?fields=name;flag`,
     onStart: COUNTRIES_REQUESTED,
     onSuccess: COUNTRIES_LOADED,
 
