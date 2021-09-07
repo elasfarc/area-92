@@ -10,6 +10,7 @@ import {
 import * as entitiesActions from "./store/entities";
 import Home from "./components/Home";
 import Continent from "./components/Continent";
+import Country from "./components/Country";
 
 function App() {
   return (
@@ -17,8 +18,11 @@ function App() {
       <Route path="/" exact>
         <Home />
       </Route>
-      <Route path="/:continent">
+      <Route path="/:continent" exact>
         <Continent />
+      </Route>
+      <Route path="/:continent/:country">
+        <Country />
       </Route>
     </Router>
   );

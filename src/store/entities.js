@@ -16,7 +16,16 @@ export const loadCountriesPerContinent = (continent) =>
 
     info: continent,
   });
-export const loadCitiesPerCountry = () => ({});
+export const loadCitiesPerCountry = (country, continent) =>
+  apiActions.requestApiCall({
+    url: `https://countriesnow.space/api/v0.1/countries/cities`,
+    method: "POST",
+    body: { country },
+    onStart: COUNTRIES_REQUESTED,
+    onSuccess: CITIES_LOADED,
+
+    info: { country, continent },
+  });
 export const transformCityToGeo = () => ({});
 export const getGeoWeather = () => ({});
 
@@ -43,7 +52,21 @@ const reducer = (state = initialState, { type, payload }) => {
         [payload.info]: payload.data,
       },
     };
-  if (type === CITIES_LOADED) return state;
+  if (type === CITIES_LOADED)
+    return {
+      ...state,
+      isLoading: false,
+      continents: {
+        ...state.continents,
+        [payload.info.continent]: state.continents[payload.info.continent].map(
+          (country) =>
+            country.name === payload.info.country
+              ? { ...country, cities: payload.data.data }
+              : country
+        ),
+      },
+    };
+
   if (type === CITY_TRANSFORM_TO_GEO) return state;
   if (type === CITY_WEATHER_LOADED) return state;
   return state;

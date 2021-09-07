@@ -21,7 +21,7 @@ const api =
     try {
       const response = await fetch(url, {
         method,
-        body,
+        body: JSON.stringify(body),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -29,6 +29,7 @@ const api =
       const data = await response.json(response);
       dispatch(apiActions.onApiSuccess);
       if (onSuccess) dispatch({ type: onSuccess, payload: { data, info } });
+      console.log("data", data, "info", info);
     } catch (error) {
       dispatch(apiActions.onApiFail);
       if (onError) dispatch({ type: onError, payload: error });

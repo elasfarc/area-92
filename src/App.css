@@ -93,10 +93,11 @@ a:visited {
   max-width: 700px;
 }
 .box {
-  padding: 4em 0;
+  padding: 3em 0;
   cursor: pointer;
   color: white;
   background-color: #ff4f92;
+  background-color: rgb(113, 66, 157);
 }
 
 .box__heading {
@@ -106,6 +107,6 @@ a:visited {
   letter-spacing: 2px;
 }
 .box__img {
-  opacity: 50%;
+  opacity: 70%;
   width: 30%;
 }
