@@ -13,6 +13,7 @@ import City from "./City";
 const Country = () => {
   const { country: countryName } = useParams();
   const { url, path } = useRouteMatch();
+  const dispatch = useDispatch();
   // const { name, flag, currency, cities } = useSelector(
   //   (state) => state.entities.countries
   // ).find((country) => country.name === countryName);
@@ -21,7 +22,14 @@ const Country = () => {
     state: { name, flag, currency, capital, cities },
   } = useLocation();
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    dispatch(
+      entitiesActions.transformCitiesToGeo({
+        country: name,
+        cities: cities.map((city) => city.name),
+      })
+    );
+  }, []);
   return (
     <div className="home">
       <div className="box mb-1">
@@ -35,9 +43,9 @@ const Country = () => {
         </div>
       </div>
       <div className="cities">
-        {cities.map((city) => (
-          <Link key={city} to={`${url}/${city}`}>
-            <div className="box mb-1">{city}</div>
+        {cities.map(({ name: cityName }) => (
+          <Link key={cityName} to={`${url}/${cityName}`}>
+            <div className="box mb-1">{cityName}</div>
           </Link>
         ))}
       </div>

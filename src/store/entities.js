@@ -4,7 +4,7 @@ import * as apiActions from "./api";
 const COUNTRIES_REQUESTED = "/countries/request";
 const COUNTRIES_LOADED = "/countries/load";
 const CAPITALS_LOADED = "/countries/capital";
-const CITY_TRANSFORM_TO_GEO = "/city/transform";
+const CITIES_TRANSFORM_TO_GEO = "country/cities/transform2Geo";
 const CITY_WEATHER_LOADED = "/weather/city";
 
 // ACTION CREATOR
@@ -21,7 +21,16 @@ export const loadContriesCapitals = () =>
     onSuccess: CAPITALS_LOADED,
   });
 
-export const transformCityToGeo = () => ({});
+export const transformCitiesToGeo = ({ country, cities }) =>
+  apiActions.requestApiCall({
+    url: `http://open.mapquestapi.com/geocoding/v1/batch?key=4qiFlGPdSaIgG97k8C3AyJRKLBpq1jtJ`,
+    method: "POST",
+    body: { locations: cities.map((city) => ({ city })) },
+    onStart: COUNTRIES_REQUESTED,
+    onSuccess: CITIES_TRANSFORM_TO_GEO,
+    info: country,
+  });
+
 export const getGeoWeather = () => ({});
 
 // REDUCER
@@ -32,15 +41,22 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   if (type === COUNTRIES_REQUESTED) return { ...state, isLoading: true };
-  if (type === COUNTRIES_LOADED)
+  if (type === COUNTRIES_LOADED) {
+    const { data } = payload.response;
     return {
       ...state,
       isLoading: false,
-      countries: payload.data,
+      countries: data.map((country) => ({
+        ...country,
+        cities: country.cities?.map((city) => ({ name: city })),
+      })),
     };
+  }
 
   if (type === CAPITALS_LOADED) {
-    const { data } = payload;
+    const {
+      response: { data },
+    } = payload;
     return {
       ...state,
       isLoading: false,
@@ -48,7 +64,28 @@ const reducer = (state = initialState, { type, payload }) => {
     };
   }
 
-  if (type === CITY_TRANSFORM_TO_GEO) return state;
+  if (type === CITIES_TRANSFORM_TO_GEO) {
+    console.log(payload);
+    return {
+      ...state,
+      isLoading: false,
+      countries: state.countries.map((country) =>
+        country.name === payload.info
+          ? {
+              ...country,
+              cities: payload.response.results.map(
+                ({ providedLocation, locations: [{ latLng, mapUrl }] }) => ({
+                  name: providedLocation.city,
+                  country: country.name,
+                  latLng,
+                  mapUrl,
+                })
+              ),
+            }
+          : country
+      ),
+    };
+  }
   if (type === CITY_WEATHER_LOADED) return state;
   return state;
 };
