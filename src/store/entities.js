@@ -74,9 +74,13 @@ const reducer = (state = initialState, { type, payload }) => {
           ? {
               ...country,
               cities: payload.response.results.map(
-                ({ providedLocation, locations: [{ latLng, mapUrl }] }) => ({
+                ({
+                  providedLocation,
+                  locations: [{ latLng, mapUrl, adminArea3 }],
+                }) => ({
                   name: providedLocation.city,
                   country: country.name,
+                  state: adminArea3,
                   latLng,
                   mapUrl,
                 })

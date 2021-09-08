@@ -63,6 +63,9 @@ a:visited {
 .cross-center {
   align-items: center;
 }
+.no-stretch {
+  align-self: start;
+}
 .gap-1 {
   gap: 1rem;
 }
