@@ -27,12 +27,11 @@ const api =
         },
       });
       const data = await response.json(response);
-      dispatch(apiActions.onApiSuccess);
+      dispatch(apiActions.onApiSuccess());
       if (onSuccess)
         dispatch({ type: onSuccess, payload: { response: data, info } });
-      // console.log("data", data, "info", info);
     } catch (error) {
-      dispatch(apiActions.onApiFail);
+      dispatch(apiActions.onApiFail());
       if (onError) dispatch({ type: onError, payload: error });
     }
     return null;

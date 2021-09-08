@@ -3,19 +3,34 @@ import * as apiActions from "./api";
 // ACTION TYPES
 const COUNTRIES_REQUESTED = "/countries/request";
 const COUNTRIES_LOADED = "/countries/load";
-const CAPITALS_LOADED = "/countries/capital";
 const STATES_LOADED = "/country/states";
 const CITIES_TRANSFORM_TO_GEO = "country/cities/transform2Geo";
 const CITY_WEATHER_LOADED = "/weather/city";
 
+// async thunk
+export const loadCountriesData = () => async (dispatch) => {
+  dispatch({ type: COUNTRIES_REQUESTED });
+  try {
+    const { data: countries } = await (
+      await fetch(
+        `https://countriesnow.space/api/v0.1/countries/info?returns=flag,currency,cities`
+      )
+    ).json();
+    const { data: capitals } = await (
+      await fetch(`https://countriesnow.space/api/v0.1/countries/capital`)
+    ).json();
+    dispatch(apiActions.onApiSuccess());
+    dispatch({
+      type: COUNTRIES_LOADED,
+      payload: { countries, capitals },
+    });
+  } catch (error) {
+    dispatch(apiActions.onApiFail());
+  }
+};
+
 // ACTION CREATOR
 
-export const loadCountriesData = () =>
-  apiActions.requestApiCall({
-    url: `https://countriesnow.space/api/v0.1/countries/info?returns=flag,currency,cities`,
-    onStart: COUNTRIES_REQUESTED,
-    onSuccess: COUNTRIES_LOADED,
-  });
 export const getCountryStates = (country) =>
   apiActions.requestApiCall({
     url: `https://countriesnow.space/api/v0.1/countries/states`,
@@ -24,12 +39,6 @@ export const getCountryStates = (country) =>
     onStart: COUNTRIES_REQUESTED,
     onSuccess: STATES_LOADED,
     info: country,
-  });
-
-export const loadContriesCapitals = () =>
-  apiActions.requestApiCall({
-    url: `https://countriesnow.space/api/v0.1/countries/capital`,
-    onSuccess: CAPITALS_LOADED,
   });
 
 export const transformCitiesToGeo = ({ country, cities }) =>
@@ -52,28 +61,19 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   if (type === COUNTRIES_REQUESTED) return { ...state, isLoading: true };
+
   if (type === COUNTRIES_LOADED) {
-    const { data } = payload.response;
+    const { countries, capitals } = payload;
     return {
       ...state,
       isLoading: false,
-      countries: data.map((country) => ({
+      countries: countries.map((country) => ({
         ...country,
-        cities: country.cities?.map((city) => ({ name: city })),
+        ...capitals.find(({ capital, name }) => country.name === name),
       })),
     };
   }
 
-  if (type === CAPITALS_LOADED) {
-    const {
-      response: { data },
-    } = payload;
-    return {
-      ...state,
-      isLoading: false,
-      capitals: data,
-    };
-  }
   if (type === STATES_LOADED) {
     const {
       response: {
@@ -92,7 +92,6 @@ const reducer = (state = initialState, { type, payload }) => {
   }
 
   if (type === CITIES_TRANSFORM_TO_GEO) {
-    console.log(payload);
     return {
       ...state,
       isLoading: false,
