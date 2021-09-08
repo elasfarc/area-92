@@ -4,6 +4,7 @@ import * as apiActions from "./api";
 const COUNTRIES_REQUESTED = "/countries/request";
 const COUNTRIES_LOADED = "/countries/load";
 const CAPITALS_LOADED = "/countries/capital";
+const STATES_LOADED = "/country/states";
 const CITIES_TRANSFORM_TO_GEO = "country/cities/transform2Geo";
 const CITY_WEATHER_LOADED = "/weather/city";
 
@@ -15,6 +16,16 @@ export const loadCountriesData = () =>
     onStart: COUNTRIES_REQUESTED,
     onSuccess: COUNTRIES_LOADED,
   });
+export const getCountryStates = (country) =>
+  apiActions.requestApiCall({
+    url: `https://countriesnow.space/api/v0.1/countries/states`,
+    method: "POST",
+    body: { country },
+    onStart: COUNTRIES_REQUESTED,
+    onSuccess: STATES_LOADED,
+    info: country,
+  });
+
 export const loadContriesCapitals = () =>
   apiActions.requestApiCall({
     url: `https://countriesnow.space/api/v0.1/countries/capital`,
@@ -61,6 +72,22 @@ const reducer = (state = initialState, { type, payload }) => {
       ...state,
       isLoading: false,
       capitals: data,
+    };
+  }
+  if (type === STATES_LOADED) {
+    const {
+      response: {
+        data: { states },
+      },
+      info: countryName,
+    } = payload;
+
+    return {
+      ...state,
+      isLoading: false,
+      countries: state.countries.map((country) =>
+        country.name === countryName ? { ...country, states } : country
+      ),
     };
   }
 

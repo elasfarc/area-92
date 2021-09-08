@@ -15,6 +15,11 @@ const Country = () => {
   const { country: countryName } = useParams();
   const { url, path } = useRouteMatch();
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(entitiesActions.getCountryStates(countryName));
+  }, []);
+
   // const { name, flag, currency, cities } = useSelector(
   //   (state) => state.entities.countries
   // ).find((country) => country.name === countryName);
@@ -35,7 +40,7 @@ const Country = () => {
       })
     );
   }, []);
-  console.log("++++++");
+
   return (
     <div className="home">
       <div className="box mb-1">
