@@ -3,6 +3,10 @@ import * as apiActions from "./api";
 // ACTION TYPES
 const COUNTRIES_REQUESTED = "/countries/request";
 const COUNTRIES_LOADED = "/countries/load";
+
+const COUNTY_REQUESTED = "/country/request";
+const COUNTRY_LOADED = "/country/load";
+
 const STATES_LOADED = "/country/states";
 const CITIES_TRANSFORM_TO_GEO = "country/cities/transform2Geo";
 const CITY_WEATHER_LOADED = "/weather/city";
@@ -26,6 +30,33 @@ export const loadCountriesData = () => async (dispatch) => {
     });
   } catch (error) {
     dispatch(apiActions.onApiFail());
+  }
+};
+export const loadCountryData = (country) => async (dispatch) => {
+  dispatch({ type: COUNTY_REQUESTED });
+  let payload;
+  const apiLinks = [
+    "https://countriesnow.space/api/v0.1/countries/capital",
+    "https://countriesnow.space/api/v0.1/countries/flag/images",
+    "https://countriesnow.space/api/v0.1/countries/currency",
+  ];
+  try {
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const url of apiLinks) {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ country }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const { data } = await response.json();
+      payload = { ...payload, ...data };
+    }
+    dispatch(apiActions.onApiSuccess());
+    dispatch({ type: COUNTRY_LOADED, payload });
+  } catch (error) {
+    dispatch({ type: "api_fail", payload: error });
   }
 };
 
@@ -61,6 +92,7 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   if (type === COUNTRIES_REQUESTED) return { ...state, isLoading: true };
+  if (type === COUNTY_REQUESTED) return { ...state, isLoading: true };
 
   if (type === COUNTRIES_LOADED) {
     const { countries, capitals } = payload;
@@ -71,6 +103,13 @@ const reducer = (state = initialState, { type, payload }) => {
         ...country,
         ...capitals.find(({ capital, name }) => country.name === name),
       })),
+    };
+  }
+  if (type === COUNTRY_LOADED) {
+    return {
+      ...state,
+      isLoading: false,
+      countries: [...state.countries, payload],
     };
   }
 
