@@ -7,47 +7,55 @@ const LocationWeather = ({
   location: { countryName, cityName },
 }) => {
   const dispatch = useDispatch();
-  const isWeatherLoaded = React.useRef(false);
+  const [getWeather, setGetWeather] = React.useState(false);
 
-  const state = useSelector((state) =>
+  const city = useSelector((state) =>
     state.entities.countries
       .find((country) => country.name === countryName)
       .states.find((state) => state.name === cityName)
   );
 
   React.useEffect(() => {
-    //dispatch(entitiesActions.getGeoWeather(coordinates, countryName, cityName));
-    isWeatherLoaded.current = true;
-  }, []);
+    if (getWeather) {
+      dispatch(
+        entitiesActions.getGeoWeather(coordinates, countryName, cityName)
+      );
+    }
+  }, [getWeather]);
 
-  //console.log(state, "kkkk");
-  if (isWeatherLoaded.current) {
-    console.log("////// here llkk");
+  if (city?.weather) {
     const {
       weather: { temp, humidity, windSpeed, description, icon },
-    } = state;
+    } = city;
+
     return (
-      <ul>
-        <li>temp: {temp}</li>
-        <li>humidity: {humidity}</li>
-        <li>windSpeed: {windSpeed}</li>
-        <li>description: {description}</li>
-      </ul>
+      <div>
+        <ul>
+          <li>temp: {temp}</li>
+          <li>humidity: {humidity}</li>
+          <li>windSpeed: {windSpeed}</li>
+          <li>description: {description}</li>
+        </ul>
+        <img
+          src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+          alt="condition"
+        />
+      </div>
     );
   }
+
   return (
     <div>
-      <p>loading weather...</p>
+      {getWeather ? (
+        <div>loading weater info...</div>
+      ) : (
+        <button type="button" onClick={() => setGetWeather(true)}>
+          {" "}
+          get weather data
+        </button>
+      )}
     </div>
   );
 };
 
 export default LocationWeather;
-
-// return weather ? (
-//   <>hello weather</>
-// ) : (
-//   <div>
-//     <p>loading weather...</p>
-//   </div>
-// );

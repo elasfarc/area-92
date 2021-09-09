@@ -67,7 +67,7 @@ const Country = () => {
         <div className="cities">
           {country.states.map(({ name: cityName, mapUrl, state, latLng }) => (
             <City
-              key={uuidv4()}
+              key={cityName}
               cityInfo={{ countryName, cityName, mapUrl, state, latLng }}
             />
           ))}

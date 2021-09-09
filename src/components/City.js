@@ -12,7 +12,7 @@ import LocationWeather from "./LocationWeather";
 
 const City = ({ cityInfo }) => {
   const { countryName, cityName, mapUrl, state, latLng } = cityInfo;
-  const [getWeather, setGetWeather] = React.useState(false);
+
   return (
     <div className="box mb-1">
       <div className="container flex space-between gap-3 ">
@@ -23,20 +23,10 @@ const City = ({ cityInfo }) => {
           <li>name: {cityName}</li>
           <li>state: {state}</li>
         </div>
-        {getWeather ? (
-          <LocationWeather
-            coordinates={latLng}
-            location={{ countryName, cityName }}
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={() => setGetWeather(true)}
-            className="no-stretch"
-          >
-            Weather
-          </button>
-        )}
+        <LocationWeather
+          coordinates={latLng}
+          location={{ countryName, cityName }}
+        />
       </div>
     </div>
   );

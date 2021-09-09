@@ -238,10 +238,15 @@ const reducer = (state = initialState, { type, payload }) => {
           temp,
           humidity,
           wind_speed: windSpeed,
-          weather: { description, icon },
+          weather: [{ description, icon }],
         },
       },
     } = payload;
+    // return {
+    //   ...state,
+    //   weather: { temp, humidity, windSpeed, description, icon },
+    // };
+
     return {
       ...state,
       countries: state.countries.map((country) =>
@@ -265,3 +270,24 @@ const reducer = (state = initialState, { type, payload }) => {
 };
 
 export default reducer;
+
+// weather
+
+// return {
+//   ...state,
+//   countries: state.countries.map((country) =>
+//     country.name === countryName
+//       ? {
+//           ...country,
+//           states: country.states.map((state) =>
+//             state.name === cityName
+//               ? {
+//                   ...state,
+//                   weather: { temp, humidity, windSpeed, description, icon },
+//                 }
+//               : state
+//           ),
+//         }
+//       : country
+//   ),
+// };
