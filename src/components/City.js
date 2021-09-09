@@ -15,7 +15,7 @@ const City = ({ cityInfo }) => {
 
   return (
     <div className="box mb-1">
-      <div className="container flex space-between gap-3 ">
+      <div className="container  text-center  ">
         {/* <Link to={`${url}/${cityName}`}> */}
         <img src={mapUrl} alt={`map of ${cityName} `} width="150" />
         {/* </Link> */}

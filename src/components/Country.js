@@ -52,9 +52,9 @@ const Country = () => {
   if (isLoading || !country) return <h1>.....LOADING</h1>;
   const { name, flag, currency, capital } = country;
   return (
-    <div className="home">
-      <div className="box mb-1">
-        <div className="container flex gap-2 cross-center">
+    <div className="home  gap-1">
+      <div className="box mb-1 country text-center">
+        <div className="container   gap-3 cross-center country ">
           <img src={flag} alt="" className="box__img" />
           <div className="text-center">
             <h4 className="box__heading">{name}</h4>
@@ -64,14 +64,15 @@ const Country = () => {
         </div>
       </div>
       {country.states ? (
-        <div className="cities">
+        <>
           {country.states.map(({ name: cityName, mapUrl, state, latLng }) => (
             <City
               key={cityName}
+              className=""
               cityInfo={{ countryName, cityName, mapUrl, state, latLng }}
             />
           ))}
-        </div>
+        </>
       ) : null}
     </div>
   );

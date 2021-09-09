@@ -16,16 +16,16 @@ const Home = () => {
     }
   }, []);
   return (
-    <div className="home">
+    <div className="home  gap-1">
       {countries.map((country) => {
         const { name, flag, currency, capital } = country;
 
         return (
           <div key={name} className="box mb-1">
             <Link to={{ pathname: `/${name}`, state: { ...country } }}>
-              <div className="container flex gap-2 cross-center">
+              <div className="container flex  cross-center">
                 <img src={flag} alt="" className="box__img" />
-                <div className="text-center">
+                <div className="text-center box__info">
                   <h4 className="box__heading">{name}</h4>
                   <p className="box__text">Currency: {currency}</p>
                   <p className="box__text">Capital: {capital}</p>

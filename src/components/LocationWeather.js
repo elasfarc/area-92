@@ -49,7 +49,11 @@ const LocationWeather = ({
       {getWeather ? (
         <div>loading weater info...</div>
       ) : (
-        <button type="button" onClick={() => setGetWeather(true)}>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => setGetWeather(true)}
+        >
           {" "}
           get weather data
         </button>
