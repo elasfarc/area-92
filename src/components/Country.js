@@ -10,8 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
 import City from "./City";
 import { v4 as uuidv4 } from "uuid";
+import LocationWeather from "./LocationWeather";
 
 const Country = () => {
+  const [getWeather, setGetWeather] = React.useState(false);
   const { country: countryName } = useParams();
   const { url, path } = useRouteMatch();
   const dispatch = useDispatch();
@@ -23,23 +25,32 @@ const Country = () => {
 
   const isReady = React.useRef(false);
 
+  if (country && !isReady.current) isReady.current = true;
+
   React.useEffect(() => {
+    console.log("if !country useEffect");
     if (!country) {
+      console.log("if !country useEffect INSIDE THE IF STATMENT");
+      console.log("country", country);
       dispatch(entitiesActions.loadCountryData(countryName));
-      isReady.current = true;
+      //console.log("will change .current");
     }
   }, []);
 
   React.useEffect(() => {
-    isReady.current = true;
-    dispatch(entitiesActions.getCountryStates(countryName));
+    console.log("why in the fuck");
+    if (country && !country?.states) {
+      console.log("how many times u gonna dispatch");
+      console.log("country", country);
+      dispatch(entitiesActions.getCountryStates(countryName));
+    }
   }, [isReady.current]);
 
   // const {
   //   state: { name, flag, currency, capital },
   // } = useLocation();
 
-  if (isLoading || !country || !isReady.current) return <h1>.....LOADING</h1>;
+  if (isLoading || !country) return <h1>.....LOADING</h1>;
   const { name, flag, currency, capital } = country;
   return (
     <div className="home">
@@ -55,21 +66,8 @@ const Country = () => {
       </div>
       {country.states ? (
         <div className="cities">
-          {country.states.map(({ name: cityName, mapUrl, state }) => (
-            <Link key={uuidv4()} to={`${url}/${cityName}`}>
-              <div className="box mb-1">
-                <div className="container flex space-between gap-3 ">
-                  <img src={mapUrl} alt={`map of ${cityName} `} width="150" />
-                  <div className=" mb-1">
-                    <li>name: {cityName}</li>
-                    <li>state: {state}</li>
-                  </div>
-                  <button type="button" className="no-stretch">
-                    Weather
-                  </button>
-                </div>
-              </div>
-            </Link>
+          {country.states.map(({ name: cityName, mapUrl, state, latLng }) => (
+            <div key={uuidv4()}>happy now?</div>
           ))}
         </div>
       ) : null}

@@ -11,7 +11,9 @@ const STATES_GEO_LOADED = "/country/states";
 
 const STATES_LOADED = "/country/states/D";
 const CITIES_TRANSFORM_TO_GEO = "country/cities/transform2Geo";
-const CITY_WEATHER_LOADED = "/weather/city";
+
+const WEATHER_REQUESTED = "/:city/weather/request";
+const CITY_WEATHER_LOADED = "/:city/weather/load";
 
 // async thunk
 export const loadCountriesData = () => async (dispatch) => {
@@ -119,7 +121,13 @@ export const transformCitiesToGeo = ({ country, cities }) =>
     info: country,
   });
 
-export const getGeoWeather = () => ({});
+export const getGeoWeather = ({ lat, lng }, country, city) =>
+  apiActions.requestApiCall({
+    url: `https://tranquil-depths-60651.herokuapp.com/https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=minutely,hourly&appid=e38f7e1cfd58b718a6bef99f85667dcd&units=metric`,
+    onStart: WEATHER_REQUESTED,
+    onSuccess: CITY_WEATHER_LOADED,
+    info: { country, city },
+  });
 
 // REDUCER
 const initialState = {
@@ -221,7 +229,38 @@ const reducer = (state = initialState, { type, payload }) => {
       ),
     };
   }
-  if (type === CITY_WEATHER_LOADED) return state;
+  if (type === CITY_WEATHER_LOADED) {
+    console.log("^_^ summertime weather", payload);
+    const {
+      info: { country: countryName, city: cityName },
+      response: {
+        current: {
+          temp,
+          humidity,
+          wind_speed: windSpeed,
+          weather: { description, icon },
+        },
+      },
+    } = payload;
+    return {
+      ...state,
+      countries: state.countries.map((country) =>
+        country.name === countryName
+          ? {
+              ...country,
+              states: country.states.map((state) =>
+                state.name === cityName
+                  ? {
+                      ...state,
+                      weather: { temp, humidity, windSpeed, description, icon },
+                    }
+                  : state
+              ),
+            }
+          : country
+      ),
+    };
+  }
   return state;
 };
 
