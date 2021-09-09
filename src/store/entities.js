@@ -7,7 +7,9 @@ const COUNTRIES_LOADED = "/countries/load";
 const COUNTY_REQUESTED = "/country/request";
 const COUNTRY_LOADED = "/country/load";
 
-const STATES_LOADED = "/country/states";
+const STATES_GEO_LOADED = "/country/states";
+
+const STATES_LOADED = "/country/states/D";
 const CITIES_TRANSFORM_TO_GEO = "country/cities/transform2Geo";
 const CITY_WEATHER_LOADED = "/weather/city";
 
@@ -62,15 +64,50 @@ export const loadCountryData = (country) => async (dispatch) => {
 
 // ACTION CREATOR
 
-export const getCountryStates = (country) =>
-  apiActions.requestApiCall({
-    url: `https://countriesnow.space/api/v0.1/countries/states`,
-    method: "POST",
-    body: { country },
-    onStart: COUNTRIES_REQUESTED,
-    onSuccess: STATES_LOADED,
-    info: country,
-  });
+export const getCountryStates = (country) => async (dispatch) => {
+  dispatch({ type: COUNTRIES_REQUESTED });
+  try {
+    const {
+      data: { iso3, states },
+    } = await dispatch(
+      apiActions.requestApiCall({
+        url: `https://countriesnow.space/api/v0.1/countries/states`,
+        method: "POST",
+        body: { country },
+      })
+    );
+    const { results } = await dispatch(
+      apiActions.requestApiCall({
+        url: `http://open.mapquestapi.com/geocoding/v1/batch?key=4qiFlGPdSaIgG97k8C3AyJRKLBpq1jtJ`,
+        method: "POST",
+        body: {
+          //locations: states.map(({ name: city }) => ({ city, country })),
+          locations: states.map(({ name }) => ({
+            city: name.split(" ")[0],
+            country,
+          })),
+        },
+      })
+    );
+    dispatch(apiActions.onApiSuccess());
+    dispatch({
+      type: STATES_GEO_LOADED,
+      payload: { country, states, iso3, results },
+    });
+  } catch (error) {
+    dispatch(apiActions.onApiFail());
+  }
+};
+
+// export const getCountryStates = (country) =>
+//   apiActions.requestApiCall({
+//     url: `https://countriesnow.space/api/v0.1/countries/states`,
+//     method: "POST",
+//     body: { country },
+//     onStart: COUNTRIES_REQUESTED,
+//     onSuccess: STATES_LOADED,
+//     info: country,
+//   });
 
 export const transformCitiesToGeo = ({ country, cities }) =>
   apiActions.requestApiCall({
@@ -110,6 +147,35 @@ const reducer = (state = initialState, { type, payload }) => {
       ...state,
       isLoading: false,
       countries: [...state.countries, payload],
+    };
+  }
+
+  if (type === STATES_GEO_LOADED) {
+    console.log("summer time , payload", payload);
+    const { country: countryName, states, iso3, results } = payload;
+    return {
+      ...state,
+      isLoading: false,
+      countries: state.countries.map((country) =>
+        country.name === countryName
+          ? {
+              ...country,
+              iso3,
+              states: results.map(
+                ({
+                  providedLocation,
+                  locations: [{ latLng, mapUrl, adminArea3 }],
+                }) => ({
+                  name: providedLocation.city,
+                  country: country.name,
+                  state: adminArea3,
+                  latLng,
+                  mapUrl,
+                })
+              ),
+            }
+          : country
+      ),
     };
   }
 

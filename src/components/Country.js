@@ -21,13 +21,25 @@ const Country = () => {
   );
   const { isLoading } = useSelector((state) => state.entities);
 
+  const isReady = React.useRef(false);
+
   React.useEffect(() => {
     if (!country) {
       dispatch(entitiesActions.loadCountryData(countryName));
+      isReady.current = true;
     }
   }, []);
 
-  if (isLoading || !country) return <h1>.....LOADING</h1>;
+  React.useEffect(() => {
+    isReady.current = true;
+    dispatch(entitiesActions.getCountryStates(countryName));
+  }, [isReady.current]);
+
+  // const {
+  //   state: { name, flag, currency, capital },
+  // } = useLocation();
+
+  if (isLoading || !country || !isReady.current) return <h1>.....LOADING</h1>;
   const { name, flag, currency, capital } = country;
   return (
     <div className="home">
@@ -41,6 +53,26 @@ const Country = () => {
           </div>
         </div>
       </div>
+      {country.states ? (
+        <div className="cities">
+          {country.states.map(({ name: cityName, mapUrl, state }) => (
+            <Link key={uuidv4()} to={`${url}/${cityName}`}>
+              <div className="box mb-1">
+                <div className="container flex space-between gap-3 ">
+                  <img src={mapUrl} alt={`map of ${cityName} `} width="150" />
+                  <div className=" mb-1">
+                    <li>name: {cityName}</li>
+                    <li>state: {state}</li>
+                  </div>
+                  <button type="button" className="no-stretch">
+                    Weather
+                  </button>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 };

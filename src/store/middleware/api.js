@@ -17,6 +17,7 @@ const api =
       onError,
       info,
     } = payload;
+    let data;
     if (onStart) dispatch({ type: onStart });
     try {
       const response = await fetch(url, {
@@ -26,7 +27,7 @@ const api =
           "Content-type": "application/json; charset=UTF-8",
         },
       });
-      const data = await response.json(response);
+      data = await response.json(response);
       dispatch(apiActions.onApiSuccess());
       if (onSuccess)
         dispatch({ type: onSuccess, payload: { response: data, info } });
@@ -34,7 +35,7 @@ const api =
       dispatch(apiActions.onApiFail());
       if (onError) dispatch({ type: onError, payload: error });
     }
-    return null;
+    return data;
   };
 
 export default api;
