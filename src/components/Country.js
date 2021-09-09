@@ -13,7 +13,6 @@ import { v4 as uuidv4 } from "uuid";
 import LocationWeather from "./LocationWeather";
 
 const Country = () => {
-  const [getWeather, setGetWeather] = React.useState(false);
   const { country: countryName } = useParams();
   const { url, path } = useRouteMatch();
   const dispatch = useDispatch();
@@ -33,7 +32,7 @@ const Country = () => {
       console.log("if !country useEffect INSIDE THE IF STATMENT");
       console.log("country", country);
       dispatch(entitiesActions.loadCountryData(countryName));
-      //console.log("will change .current");
+      // console.log("will change .current");
     }
   }, []);
 
@@ -67,7 +66,10 @@ const Country = () => {
       {country.states ? (
         <div className="cities">
           {country.states.map(({ name: cityName, mapUrl, state, latLng }) => (
-            <div key={uuidv4()}>happy now?</div>
+            <City
+              key={uuidv4()}
+              cityInfo={{ countryName, cityName, mapUrl, state, latLng }}
+            />
           ))}
         </div>
       ) : null}
