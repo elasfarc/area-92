@@ -80,7 +80,7 @@ export const getCountryStates = (country) => async (dispatch) => {
     );
     const { results } = await dispatch(
       apiActions.requestApiCall({
-        url: `http://open.mapquestapi.com/geocoding/v1/batch?key=4qiFlGPdSaIgG97k8C3AyJRKLBpq1jtJ`,
+        url: `http://open.mapquestapi.com/geocoding/v1/batch?key=JtR2Jbn46J8Q71gzcvfncTJt6xhbJHYf`,
         method: "POST",
         body: {
           //locations: states.map(({ name: city }) => ({ city, country })),
