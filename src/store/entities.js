@@ -83,7 +83,6 @@ export const getCountryStates = (country) => async (dispatch) => {
         url: `http://open.mapquestapi.com/geocoding/v1/batch?key=JtR2Jbn46J8Q71gzcvfncTJt6xhbJHYf`,
         method: "POST",
         body: {
-          //locations: states.map(({ name: city }) => ({ city, country })),
           locations: states.map(({ name }) => ({
             city: name.split(" ")[0],
             country,
@@ -100,16 +99,6 @@ export const getCountryStates = (country) => async (dispatch) => {
     dispatch(apiActions.onApiFail());
   }
 };
-
-// export const getCountryStates = (country) =>
-//   apiActions.requestApiCall({
-//     url: `https://countriesnow.space/api/v0.1/countries/states`,
-//     method: "POST",
-//     body: { country },
-//     onStart: COUNTRIES_REQUESTED,
-//     onSuccess: STATES_LOADED,
-//     info: country,
-//   });
 
 export const transformCitiesToGeo = ({ country, cities }) =>
   apiActions.requestApiCall({
@@ -140,27 +129,17 @@ const reducer = (state = initialState, { type, payload }) => {
   if (type === COUNTY_REQUESTED) return { ...state, isLoading: true };
 
   if (type === COUNTRIES_LOADED) {
-    console.log("****", type, payload, state);
-    console.log("UUU****", {
-      ...state,
-      isLoading: false,
-      countries: payload.countries.map((country) => ({
-        ...country,
-        ...payload.capitals.find(({ capital, name }) => country.name === name),
-      })),
-    });
     const { countries, capitals } = payload;
     return {
       ...state,
       isLoading: false,
       countries: countries.map((country) => ({
         ...country,
-        ...capitals.find(({ capital, name }) => country.name === name),
+        ...capitals.find(({ name }) => country.name === name),
       })),
     };
   }
   if (type === COUNTRY_LOADED) {
-    console.log("4444", type);
     return {
       ...state,
       isLoading: false,
@@ -169,7 +148,6 @@ const reducer = (state = initialState, { type, payload }) => {
   }
 
   if (type === STATES_GEO_LOADED) {
-    console.log("summer time , payload", payload);
     const { country: countryName, states, iso3, results } = payload;
     return {
       ...state,
@@ -180,13 +158,7 @@ const reducer = (state = initialState, { type, payload }) => {
               ...country,
               iso3,
               states: results.map(
-                (
-                  {
-                    providedLocation,
-                    locations: [{ latLng, mapUrl, adminArea3 }],
-                  },
-                  index
-                ) => ({
+                ({ locations: [{ latLng, mapUrl, adminArea3 }] }, index) => ({
                   name: states[index].name,
                   country: country.name,
                   state: adminArea3,
@@ -243,7 +215,6 @@ const reducer = (state = initialState, { type, payload }) => {
     };
   }
   if (type === CITY_WEATHER_LOADED) {
-    console.log("^_^ summertime weather", payload);
     const {
       info: { country: countryName, city: cityName },
       response: {
@@ -255,10 +226,6 @@ const reducer = (state = initialState, { type, payload }) => {
         },
       },
     } = payload;
-    // return {
-    //   ...state,
-    //   weather: { temp, humidity, windSpeed, description, icon },
-    // };
 
     return {
       ...state,
@@ -283,24 +250,3 @@ const reducer = (state = initialState, { type, payload }) => {
 };
 
 export default reducer;
-
-// weather
-
-// return {
-//   ...state,
-//   countries: state.countries.map((country) =>
-//     country.name === countryName
-//       ? {
-//           ...country,
-//           states: country.states.map((state) =>
-//             state.name === cityName
-//               ? {
-//                   ...state,
-//                   weather: { temp, humidity, windSpeed, description, icon },
-//                 }
-//               : state
-//           ),
-//         }
-//       : country
-//   ),
-// };

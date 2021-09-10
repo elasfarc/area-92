@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
 
@@ -63,3 +64,11 @@ const LocationWeather = ({
 };
 
 export default LocationWeather;
+
+LocationWeather.propTypes = {
+  coordinates: PropTypes.objectOf(PropTypes.number).isRequired,
+  location: PropTypes.shape({
+    cityName: PropTypes.string,
+    countryName: PropTypes.string,
+  }).isRequired,
+};

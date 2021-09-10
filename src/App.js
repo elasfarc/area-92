@@ -1,14 +1,7 @@
 import React from "react";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom";
-import * as entitiesActions from "./store/entities";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import Home from "./components/Home";

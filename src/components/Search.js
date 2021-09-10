@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Search = ({ handleSubmit, handleChange }) => (
   <form onSubmit={handleSubmit}>
@@ -8,3 +9,8 @@ const Search = ({ handleSubmit, handleChange }) => (
 );
 
 export default Search;
+
+Search.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+};

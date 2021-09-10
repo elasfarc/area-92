@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
@@ -41,3 +42,7 @@ const Country = ({ userInput }) => {
 };
 
 export default Country;
+
+Country.propTypes = {
+  userInput: PropTypes.string.isRequired,
+};

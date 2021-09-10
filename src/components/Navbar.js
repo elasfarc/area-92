@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-import { faUser, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faAngleLeft);
 
@@ -13,9 +14,9 @@ const Navbar = ({ children }) => {
   return (
     <div className="navbar mb-1">
       <div className="container  flex">
-        <div onClick={() => history.push("/")}>
+        <button type="button" onClick={() => history.push("/")}>
           <FontAwesomeIcon icon={faAngleLeft} />
-        </div>
+        </button>
         {children}
       </div>
     </div>
@@ -23,3 +24,11 @@ const Navbar = ({ children }) => {
 };
 
 export default Navbar;
+
+Navbar.propTypes = {
+  children: PropTypes.node,
+};
+
+Navbar.defaultProps = {
+  children: null,
+};

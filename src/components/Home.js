@@ -1,12 +1,11 @@
 import React from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
 import useFilter from "../shared/useFilter";
 
 const Home = ({ userInput }) => {
-  // const { url, path } = useRouteMatch();
-  // console.log("url", url, "path", path, "+++", `${url}/africa`);
   const dispatch = useDispatch();
   const { countries } = useSelector((state) => state.entities);
   const filteredCountries = useFilter({
@@ -19,7 +18,6 @@ const Home = ({ userInput }) => {
       dispatch(entitiesActions.loadCountriesData());
     }
   }, []);
-  console.log("about to render");
   if (filteredCountries) {
     return (
       <div className="home  gap-1">
@@ -48,3 +46,10 @@ const Home = ({ userInput }) => {
 };
 
 export default Home;
+
+Home.propTypes = {
+  userInput: PropTypes.string,
+};
+Home.defaultProps = {
+  userInput: "",
+};

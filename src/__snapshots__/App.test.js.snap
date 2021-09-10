@@ -8,8 +8,9 @@ Array [
     <div
       className="container  flex"
     >
-      <div
+      <button
         onClick={[Function]}
+        type="button"
       >
         <svg
           aria-hidden="true"
@@ -28,7 +29,7 @@ Array [
             style={Object {}}
           />
         </svg>
-      </div>
+      </button>
       <form
         onSubmit={[Function]}
       >

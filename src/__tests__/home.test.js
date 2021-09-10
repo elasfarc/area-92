@@ -9,7 +9,7 @@ const MockHome = () => (
   </Provider>
 );
 
-describe("Mission component", () => {
+describe("Home(countries) component", () => {
   it("should match the snapshot", () => {
     const tree = renderer.create(<MockHome />).toJSON();
     expect(tree).toMatchSnapshot();

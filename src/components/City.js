@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  Link,
-  useParams,
-  useRouteMatch,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import * as entitiesActions from "../store/entities";
+import PropTypes from "prop-types";
 import LocationWeather from "./LocationWeather";
 
 const City = ({ cityInfo }) => {
   const { countryName, cityName, mapUrl, state, latLng } = cityInfo;
-  console.log("cityInfo", cityInfo);
   return (
     <div className="box mb-1">
       <div className="container  text-center  ">
@@ -33,3 +24,13 @@ const City = ({ cityInfo }) => {
 };
 
 export default City;
+
+City.propTypes = {
+  cityInfo: PropTypes.shape({
+    countryName: PropTypes.string,
+    cityName: PropTypes.string,
+    mapUrl: PropTypes.string,
+    state: PropTypes.string,
+    latLng: PropTypes.shape({}),
+  }).isRequired,
+};

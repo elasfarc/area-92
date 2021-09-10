@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
 import City from "./City";
@@ -37,3 +38,8 @@ const States = ({ countryName, userInput }) => {
 };
 
 export default States;
+
+States.propTypes = {
+  userInput: PropTypes.string.isRequired,
+  countryName: PropTypes.string.isRequired,
+};
