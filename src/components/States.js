@@ -2,21 +2,28 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
 import City from "./City";
+import useFilter from "../shared/useFilter";
 
-const States = ({ countryName }) => {
+const States = ({ countryName, userInput }) => {
   const dispatch = useDispatch();
   const country = useSelector((state) =>
     state.entities.countries.find((country) => country.name === countryName)
   );
 
+  const filteredStates = useFilter({
+    searchItem: userInput,
+    dataset: country?.states,
+    searchCriteria: "name",
+  });
+
   React.useEffect(() => {
     dispatch(entitiesActions.getCountryStates(countryName));
   }, []);
 
-  if (country.states) {
+  if (filteredStates) {
     return (
       <>
-        {country.states.map(({ name: cityName, mapUrl, state, latLng }) => (
+        {filteredStates.map(({ name: cityName, mapUrl, state, latLng }) => (
           <City
             key={cityName}
             className=""

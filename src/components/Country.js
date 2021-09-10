@@ -32,7 +32,7 @@ const Country = ({ userInput }) => {
             </div>
           </div>
         </div>
-        <States countryName={countryName} />
+        <States countryName={countryName} userInput={userInput} />
       </div>
     );
   }
