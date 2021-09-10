@@ -12,7 +12,7 @@ import LocationWeather from "./LocationWeather";
 
 const City = ({ cityInfo }) => {
   const { countryName, cityName, mapUrl, state, latLng } = cityInfo;
-
+  console.log("cityInfo", cityInfo);
   return (
     <div className="box mb-1">
       <div className="container  text-center  ">

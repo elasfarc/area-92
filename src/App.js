@@ -46,7 +46,7 @@ function App() {
         <Home userInput={userInput} />
       </Route>
       <Route path="/:country" exact>
-        <Country />
+        <Country userInput={userInput} />
       </Route>
     </Router>
   );
