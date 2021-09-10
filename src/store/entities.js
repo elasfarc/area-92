@@ -1,19 +1,19 @@
 import * as apiActions from "./api";
 
 // ACTION TYPES
-const COUNTRIES_REQUESTED = "/countries/request";
-const COUNTRIES_LOADED = "/countries/load";
+export const COUNTRIES_REQUESTED = "/countries/request";
+export const COUNTRIES_LOADED = "/countries/load";
 
-const COUNTY_REQUESTED = "/country/request";
-const COUNTRY_LOADED = "/country/load";
+export const COUNTY_REQUESTED = "/country/request";
+export const COUNTRY_LOADED = "/country/load";
 
-const STATES_GEO_LOADED = "/country/states";
+export const STATES_GEO_LOADED = "/country/states";
 
-const STATES_LOADED = "/country/states/D";
-const CITIES_TRANSFORM_TO_GEO = "country/cities/transform2Geo";
+export const STATES_LOADED = "/country/states/D";
+export const CITIES_TRANSFORM_TO_GEO = "country/cities/transform2Geo";
 
-const WEATHER_REQUESTED = "/:city/weather/request";
-const CITY_WEATHER_LOADED = "/:city/weather/load";
+export const WEATHER_REQUESTED = "/:city/weather/request";
+export const CITY_WEATHER_LOADED = "/:city/weather/load";
 
 // async thunk
 export const loadCountriesData = () => async (dispatch) => {
@@ -140,6 +140,15 @@ const reducer = (state = initialState, { type, payload }) => {
   if (type === COUNTY_REQUESTED) return { ...state, isLoading: true };
 
   if (type === COUNTRIES_LOADED) {
+    console.log("****", type, payload, state);
+    console.log("UUU****", {
+      ...state,
+      isLoading: false,
+      countries: payload.countries.map((country) => ({
+        ...country,
+        ...payload.capitals.find(({ capital, name }) => country.name === name),
+      })),
+    });
     const { countries, capitals } = payload;
     return {
       ...state,
@@ -151,6 +160,7 @@ const reducer = (state = initialState, { type, payload }) => {
     };
   }
   if (type === COUNTRY_LOADED) {
+    console.log("4444", type);
     return {
       ...state,
       isLoading: false,

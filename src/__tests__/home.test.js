@@ -1,17 +1,17 @@
 import renderer from "react-test-renderer";
 import { Provider } from "react-redux";
-import App from "./App";
-import store from "./store/configureStore";
+import Home from "../components/Home";
+import store from "../store/configureStore";
 
-const MockApp = () => (
+const MockHome = () => (
   <Provider store={store}>
-    <App />
+    <Home />
   </Provider>
 );
 
 describe("Mission component", () => {
   it("should match the snapshot", () => {
-    const tree = renderer.create(<MockApp />).toJSON();
+    const tree = renderer.create(<MockHome />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

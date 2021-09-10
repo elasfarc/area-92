@@ -1,17 +1,17 @@
 import renderer from "react-test-renderer";
 import { Provider } from "react-redux";
-import App from "./App";
-import store from "./store/configureStore";
+import Navbar from "../components/Navbar";
+import store from "../store/configureStore";
 
-const MockApp = () => (
+const MockNav = () => (
   <Provider store={store}>
-    <App />
+    <Navbar />
   </Provider>
 );
 
 describe("Mission component", () => {
   it("should match the snapshot", () => {
-    const tree = renderer.create(<MockApp />).toJSON();
+    const tree = renderer.create(<MockNav />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });
