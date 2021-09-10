@@ -13,8 +13,12 @@ const Navbar = ({ children }) => {
 
   return (
     <div className="navbar mb-1">
-      <div className="container  flex">
-        <button type="button" onClick={() => history.push("/")}>
+      <div className="container  flex main-center cross-center">
+        <button
+          type="button"
+          className="btn navbar__btn"
+          onClick={() => history.push("/")}
+        >
           <FontAwesomeIcon icon={faAngleLeft} />
         </button>
         {children}

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 .App {
   text-align: center;
 }
@@ -14,7 +16,6 @@
 }
 
 /* app styles  */
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 * {
   padding: 0;
@@ -55,12 +56,28 @@ li {
   opacity: 90%;
 }
 
+.navbar__btn {
+  padding: 0 0.5rem;
+  left: 1%;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.search__btn {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 0 0.5rem;
+}
+
 .flex {
   display: flex;
 }
 
 .space-between {
   justify-content: space-between;
+}
+
+.main-center {
+  justify-content: center;
 }
 
 .cross-center {
@@ -114,17 +131,13 @@ li {
 }
 
 .home {
-  _max-width: 700px;
-  _padding: 0 1rem;
   overflow-y: hidden;
   overflow-x: hidden;
 }
 
 .box {
   padding: 1.5em 0;
-  _cursor: pointer;
   color: white;
-  _background-color: #ff4f92;
   background-color: rgb(3, 205, 157);
 }
 
@@ -153,33 +166,40 @@ li {
 
 .country {
   align-self: center;
-  _justify-items: center;
-  _align-items: center;
   background-color: #61dafb;
 }
 
 .navbar {
-  _margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
   background-color: rgba(3, 205, 158, 0.599);
+}
+
+form {
+  flex-grow: 1;
+  margin-left: 50px;
 }
 
 .nav__search {
   background-color: rgba(255, 255, 255, 0.6);
+  margin-right: 0.25rem;
   outline: none;
   border: none;
   color: black;
+  width: 50%;
+  padding: 0.15em 0 0.15em 0.25em;
+  border-radius: 10px;
+  letter-spacing: 1px;
 }
 
 @media (min-width: 550px) {
-  /* //flex wrap */
   .home {
     display: flex;
     flex-wrap: wrap;
     margin: 1rem 0 0 1rem;
   }
 
-  .country {
-    _display: flex;
+  .navbar {
+    padding: 0.5rem 0;
   }
 
   .box {

@@ -3,8 +3,15 @@ import PropTypes from "prop-types";
 
 const Search = ({ handleSubmit, handleChange }) => (
   <form onSubmit={handleSubmit}>
-    <input name="inputSearch" className="nav__search" onChange={handleChange} />
-    <button type="submit">GO</button>
+    <input
+      name="inputSearch"
+      placeholder="search..."
+      className="nav__search"
+      onChange={handleChange}
+    />
+    <button className="btn search__btn" type="submit">
+      GO
+    </button>
   </form>
 );
 
