@@ -170,11 +170,14 @@ const reducer = (state = initialState, { type, payload }) => {
               ...country,
               iso3,
               states: results.map(
-                ({
-                  providedLocation,
-                  locations: [{ latLng, mapUrl, adminArea3 }],
-                }) => ({
-                  name: providedLocation.city,
+                (
+                  {
+                    providedLocation,
+                    locations: [{ latLng, mapUrl, adminArea3 }],
+                  },
+                  index
+                ) => ({
+                  name: states[index].name,
                   country: country.name,
                   state: adminArea3,
                   latLng,
