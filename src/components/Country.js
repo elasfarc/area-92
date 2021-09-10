@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
 import States from "./States";
 
-const Country = () => {
+const Country = ({ userInput }) => {
   const { country: countryName } = useParams();
   const dispatch = useDispatch();
 
