@@ -126,7 +126,6 @@ li {
   color: white;
   _background-color: #ff4f92;
   background-color: rgb(3, 205, 157);
-  border-radius: 5px;
 }
 .box__info {
   width: 70%;
@@ -153,7 +152,18 @@ li {
   background-color: #61dafb;
 }
 
-@media (min-width: 500px) {
+.navbar {
+  _margin-bottom: 0.5rem;
+  background-color: rgba(3, 205, 158, 0.599);
+}
+.nav__search {
+  background-color: rgba(255, 255, 255, 0.6);
+  outline: none;
+  border: none;
+  color: black;
+}
+
+@media (min-width: 550px) {
   /* //flex wrap */
   .home {
     display: flex;
@@ -161,11 +171,12 @@ li {
     margin: 1rem 0 0 1rem;
   }
   .country {
-    display: flex;
+    _display: flex;
   }
 
   .box {
     width: 45%;
+    border-radius: 5px;
   }
   .box__heading {
     font-size: clamp(1rem, 2.5vw, 2.5rem);

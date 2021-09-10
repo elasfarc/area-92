@@ -54,7 +54,7 @@ const Country = () => {
   return (
     <div className="home  gap-1">
       <div className="box mb-1 country text-center">
-        <div className="container   gap-3 cross-center country ">
+        <div className="container flex gap-3 cross-center  ">
           <img src={flag} alt="" className="box__img" />
           <div className="text-center">
             <h4 className="box__heading">{name}</h4>

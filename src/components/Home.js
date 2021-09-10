@@ -3,21 +3,40 @@ import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as entitiesActions from "../store/entities";
 
-const Home = () => {
+const filterData = ({ searchItem, dataset, searchCriteria }) => {
+  let result = [];
+  result = dataset.filter(
+    (data) => data[searchCriteria].search(searchItem) !== -1
+  );
+  return result;
+};
+const Home = ({ userInput }) => {
   // const { url, path } = useRouteMatch();
   // console.log("url", url, "path", path, "+++", `${url}/africa`);
   const dispatch = useDispatch();
   const { countries } = useSelector((state) => state.entities);
+  const [filteredData, setFilteredData] = React.useState(countries);
 
-  console.log("countries", countries);
   React.useEffect(() => {
     if (countries.length === 0) {
       dispatch(entitiesActions.loadCountriesData());
     }
-  }, []);
+    setFilteredData(countries);
+  }, [countries]);
+
+  React.useEffect(() => {
+    setFilteredData(
+      filterData({
+        searchItem: userInput,
+        dataset: countries,
+        searchCriteria: "name",
+      })
+    );
+  }, [userInput]);
+
   return (
     <div className="home  gap-1">
-      {countries.map((country) => {
+      {filteredData.map((country) => {
         const { name, flag, currency, capital } = country;
 
         return (
