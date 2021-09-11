@@ -22,7 +22,7 @@ To get a local copy up and running follow these simple example steps.
 
 ```bash
 https://github.com/elasfarc/country-info.git
-cd ./math-magicians
+cd ./country-info
 ```
 
 ### Install
@@ -53,7 +53,6 @@ npm run build
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](../../issues/).
 
 ## Show your support
 
