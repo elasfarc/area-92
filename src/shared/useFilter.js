@@ -8,7 +8,7 @@ const filterData = ({ searchItem, dataset = [], searchCriteria }) => {
   return result;
 };
 
-const useFilter = ({ searchItem, dataset, searchCriteria }) => {
+const useFilter = ({ searchItem, dataset = [], searchCriteria }) => {
   const [filteredData, setFilteredData] = React.useState();
 
   React.useEffect(() => {
@@ -23,7 +23,7 @@ const useFilter = ({ searchItem, dataset, searchCriteria }) => {
 
   React.useEffect(() => {
     setFilteredData(dataset);
-  }, [dataset]);
+  }, [dataset.length]);
 
   return filteredData;
 };
