@@ -80,7 +80,7 @@ export const getCountryStates = (country) => async (dispatch) => {
     );
     const { results } = await dispatch(
       apiActions.requestApiCall({
-        url: `http://open.mapquestapi.com/geocoding/v1/batch?key=JtR2Jbn46J8Q71gzcvfncTJt6xhbJHYf`,
+        url: `https://tranquil-depths-60651.herokuapp.com/http://open.mapquestapi.com/geocoding/v1/batch?key=VhTxi3tTdtAyn4ldqHiPOukM7yxnsUSG`,
         method: "POST",
         body: {
           locations: states.map(({ name }) => ({

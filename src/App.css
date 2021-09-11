@@ -159,8 +159,6 @@ li {
 }
 
 .box__img {
-  _margin: 0 auto;
-  opacity: 100%;
   width: 40%;
 }
 
