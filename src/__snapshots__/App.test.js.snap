@@ -6,9 +6,10 @@ Array [
     className="navbar mb-1"
   >
     <div
-      className="container  flex"
+      className="container  flex main-center cross-center"
     >
       <button
+        className="btn navbar__btn"
         onClick={[Function]}
         type="button"
       >
@@ -37,8 +38,10 @@ Array [
           className="nav__search"
           name="inputSearch"
           onChange={[Function]}
+          placeholder="search..."
         />
         <button
+          className="btn search__btn"
           type="submit"
         >
           GO
