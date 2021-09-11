@@ -1,6 +1,11 @@
-# Math Magicians
+# Country-info
 
 A website . It is a Single Page App (SPA) that allows users to: get info about a country. get a weather for a specific cuntry.
+inspired by [this](https://www.behance.net/sakwadesignstudio) design
+
+## Live Link
+
+[demo](https://pensive-payne-374626.netlify.app/)
 
 ## Built With
 
