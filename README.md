@@ -3,6 +3,8 @@
 A website . It is a Single Page App (SPA) that allows users to: get info about a country. get a weather for a specific cuntry.
 inspired by [this](https://www.behance.net/sakwadesignstudio) design
 
+![screen](./ss.png)
+
 ## Demo
 
 - [Live Link](https://pensive-payne-374626.netlify.app/)
@@ -52,7 +54,6 @@ npm run build
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
-
 
 ## Show your support
 
